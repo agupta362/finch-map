@@ -1,0 +1,29 @@
+import greenfoot.*;
+import java.util.HashMap;
+
+public class FinchWorld extends World {
+    public static final int SCALE = 2; 
+    private HashMap<String, Node> nodes = new HashMap<>();
+
+    public FinchWorld() {    
+        super(800, 600, 1); 
+        setupNodes();
+    }
+
+    private void setupNodes() {
+        // Based on your diagram:
+        nodes.put("Police", new Node("Police", 100, 300));
+        nodes.put("A", new Node("A", 100 + (30*SCALE), 300));
+        nodes.put("Hospital", new Node("Hospital", 160 + (60*SCALE), 100)); 
+        nodes.put("School", new Node("School", 160 + (60*SCALE), 100 + (110*SCALE)));
+        nodes.put("Central B", new Node("Central B", 160, 300 + (192*SCALE)));
+
+        // Visualize nodes as small actors or labels here
+        for (Node n : nodes.values()) {
+            showText(n.name, n.x, n.y);
+        }
+        
+        // Add the Finch Actor at the start
+        addObject(new FinchActor(nodes), 100, 300);
+    }
+}

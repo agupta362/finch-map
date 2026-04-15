@@ -510,4 +510,30 @@ abstract class Robot {
         //Set the current display status to all off
         for (int i = 0; i < displayStatus.length; i++) displayStatus[i] = false;
     }
+    public void followLine(double distance, double speed) {
+    int threshold = 50;
+    long startTime = System.currentTimeMillis();
+    // Approximate time to travel the distance (ms)
+    double duration = (distance / speed) * 1000; 
+
+    while (System.currentTimeMillis() - startTime < duration) {
+        int left = f.getLine("Left");
+        int right = f.getLine("Right");
+
+        if (left > threshold && right > threshold) {
+            // Centered on white dash
+            f.setMotors(speed, speed);
+        } else if (left < threshold && right > threshold) {
+            // Off to the left, steer right
+            f.setMotors(speed, speed * 0.2);
+        } else if (right < threshold && left > threshold) {
+            // Off to the right, steer left
+            f.setMotors(speed * 0.2, speed);
+        } else {
+            // Gap in the dash (both black) - maintain straight
+            f.setMotors(speed * 0.8, speed * 0.8);
+        }
+    }
+    f.stop();
+}
 }
