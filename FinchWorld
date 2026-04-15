@@ -19,18 +19,28 @@ public class FinchWorld extends World {
         System.out.println("World initialized. Press SPACE to start!");
     }
 
-    private void setupNodes() {
-        nodes.put("Police", new Node("Police", 100, 300));
-        nodes.put("A", new Node("A", 100 + (30*SCALE), 300));
-        nodes.put("Hospital", new Node("Hospital", 160 + (60*SCALE), 100)); 
-        nodes.put("School", new Node("School", 160 + (60*SCALE), 100 + (110*SCALE)));
-        nodes.put("Central B", new Node("Central B", 160, 300 + (192*SCALE)));
+private void setupNodes() {
+    // Starting point
+    nodes.put("Police", new Node("Police", 100, 300));
+    
+    // Junction A is 30cm to the right of Police
+    nodes.put("A", new Node("A", 100 + (30 * SCALE), 300));
+    
+    // Hospital is UP and to the right from A (84cm away)
+    // We subtract from Y to go "UP" on the screen
+    nodes.put("Hospital", new Node("Hospital", 160 + (60 * SCALE), 150)); 
+    
+    // School is DOWN from the Hospital (110cm away)
+    nodes.put("School", new Node("School", 160 + (60 * SCALE), 150 + (110 * SCALE)));
+    
+    // Central B is way down at the bottom (192cm from A)
+    nodes.put("Central B", new Node("Central B", 100 + (30 * SCALE), 300 + (192 * SCALE)));
 
-        // Draw the names on the screen so you can see the 'stations'
-        for (Node n : nodes.values()) {
-            showText(n.name, n.x, n.y);
-        }
+    // This loop draws the labels so you can check if they look like your drawing
+    for (Node n : nodes.values()) {
+        showText(n.name, n.x, n.y);
     }
+}
 
     public void act() {
         if (Greenfoot.isKeyDown("space")) {
