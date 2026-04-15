@@ -1,29 +1,51 @@
 import greenfoot.*;
 import java.util.HashMap;
+import java.util.List;
 
 public class FinchWorld extends World {
     public static final int SCALE = 2; 
     private HashMap<String, Node> nodes = new HashMap<>();
 
     public FinchWorld() {    
+        // Create a world 800x600 pixels
         super(800, 600, 1); 
+        
+        // 1. Initialize the map data
         setupNodes();
+        
+        // 2. Add the robot to the starting point (Police Station)
+        addObject(new FinchActor(nodes), 100, 300);
+        
+        System.out.println("World initialized. Press SPACE to start!");
     }
 
     private void setupNodes() {
-        // Based on your diagram:
         nodes.put("Police", new Node("Police", 100, 300));
         nodes.put("A", new Node("A", 100 + (30*SCALE), 300));
         nodes.put("Hospital", new Node("Hospital", 160 + (60*SCALE), 100)); 
         nodes.put("School", new Node("School", 160 + (60*SCALE), 100 + (110*SCALE)));
         nodes.put("Central B", new Node("Central B", 160, 300 + (192*SCALE)));
 
-        // Visualize nodes as small actors or labels here
+        // Draw the names on the screen so you can see the 'stations'
         for (Node n : nodes.values()) {
             showText(n.name, n.x, n.y);
         }
+    }
+
+    public void act() {
+        if (Greenfoot.isKeyDown("space")) {
+            startMission();
+        }
+    }
+
+    public void startMission() {
+        // This connects to your partner's Dijkstra code in FinchTest.java
+        FinchTest.setupMap(); 
+        List<String> path = FinchTest.findShortestPath("Police", "School");
         
-        // Add the Finch Actor at the start
-        addObject(new FinchActor(nodes), 100, 300);
+        FinchActor robot = (FinchActor) getObjects(FinchActor.class).get(0);
+        if (robot != null) {
+            robot.movePath(path);
+        }
     }
 }
