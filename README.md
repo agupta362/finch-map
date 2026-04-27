@@ -1,4 +1,5 @@
 Autonomous Finch GPS Navigator
+
 What is this?
 This is a custom, self-driving GPS system built for a physical Finch robot. Give the robot a destination on the interactive digital map, and it will automatically calculate the shortest route and physically drive itself there.
 
