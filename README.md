@@ -1,50 +1,44 @@
-Autonomous Finch GPS Navigator
+# Autonomous Finch GPS Navigator
 
-What is this?
-This is a custom, self-driving GPS system built for a physical Finch robot. Give the robot a destination on the interactive digital map, and it will automatically calculate the shortest route and physically drive itself there.
+A self-driving GPS system for a physical Finch robot. You pick a destination on the digital map, the app finds the shortest route, and the robot drives itself there.
 
-Key Features
-Interactive Map: A custom digital interface where you can click a destination (like the Hospital or School), and the robot will route itself there.
+## What it does
 
-Smart Pathfinding: Automatically calculates the absolute shortest path across the map's grid using Dijkstra's Algorithm.
+* Interactive map UI where you click a destination like Hospital or School
+* Shortest-path routing with Dijkstra's algorithm
+* Autonomous driving with infrared sensors to stay on the line
+* Live map animation that follows the robot's movement
+* Curve vs straightaway speed handling
+* Failsafe stop if the robot leaves the track for too long
 
-Autonomous Driving: Uses real-time infrared sensor data to physically steer the robot, keep it centered on the line, and execute precise turns at intersections.
+## How it works
 
-Live Sync: The digital map animates exactly as the physical robot moves, using custom physics timers to slow down on curves and speed up on straightaways.
+1. The track is modeled as a weighted graph in code.
+2. When you click a destination, Dijkstra finds the shortest path.
+3. The Finch uses a dual IR sensor loop to stay centered on the white line.
+4. The map UI updates while the robot moves, including slower motion on curves.
 
-How It Works
-The Math: The physical track is mapped out in the code as a "weighted graph." When a user clicks a destination, Dijkstra's algorithm finds the fastest route by mapping the distance between nodes.
+## Tech stack
 
-The Sensors: The Finch robot uses a dual-sensor control loop. It "straddles" the white line, constantly adjusting its left and right wheel motors to stay on track. If it detects green grass for too long, it triggers an emergency failsafe stop.
+* Java
+* Finch Robot (BirdBrain Technologies)
+* Java Swing and Graphics2D
+* Graph theory, multithreading, event-driven UI, hardware/software integration
 
-The Physics: Curves are mathematically different from straightaways. The system has a built-in physics engine that recognizes when the robot is entering a curve, smoothly adjusting its speed and updating the "mental compass" so it knows exactly what direction it is facing when it finishes the turn.
+## How to run
 
-Tech Stack
-Language: Java
+From the project directory (files are in the repo root):
 
-Hardware: Finch Robot (by BirdBrain Technologies)
+```bash
+# Windows
+del *.class
+javac *.java
+java FinchTest
+```
 
-Interface: Java Swing & Graphics2D (for custom bezier curve rendering)
+## Using the interface
 
-Concepts: Multithreading, Graph Theory, Event-Driven UI, Hardware/Software Integration
-
-How to Run It
-Open your terminal, navigate to the parent directory, and run these three commands to compile and launch the project:
-
-Bash
-# 1. Clear out old compiled files
-del birdbraintechnologies\*.class
-
-# 2. Compile all Java files
-javac birdbraintechnologies\*.java
-
-# 3. Run the main program
-java birdbraintechnologies.FinchTest
-Using the Interface
-Run the program and follow the terminal prompts to calibrate the robot's light sensors (Grass, Black Road, White Line).
-
-Once the map window opens, select the direction your physical robot is currently facing from the top dropdown menu.
-
-Click any red station on the map (e.g., Hospital, Post Office, School).
-
-Watch the robot calculate the route and drive
+1. Calibrate the light sensors for grass, black road, and white line.
+2. Choose the robot's current facing direction from the dropdown.
+3. Click a red station on the map.
+4. Watch the path calculation and autonomous drive.
